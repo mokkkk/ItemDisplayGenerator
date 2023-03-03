@@ -4,14 +4,6 @@ using UnityEngine;
 
 namespace Animator
 {
-    // ノード生成用データの構造体
-    public struct NodeGenerationData
-    {
-        public string jsonFilePath;
-        public string partName;
-        public int customModelData;
-    }
-
     /**
     * ノードのGameObjectを製造する．
     */
@@ -28,8 +20,9 @@ namespace Animator
         private GameObject nodeObject;
 
         // ノード生成
-        public Node GenerateNode()
+        public Node GenerateNode(NodeGenerationData data)
         {
+            Debug.Log(this + ":ノード生成");
             return null;
         }
     }

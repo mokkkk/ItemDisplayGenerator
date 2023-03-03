@@ -13,18 +13,23 @@ namespace Animator
         private NodeGenerator nodeGenerator;
 
         // ノード
+        [SerializeField]
         private List<Node> nodeList;
 
         public void Start()
         {
             // Component取得
             nodeGenerator = this.GetComponent<NodeGenerator>();
+
+            // List初期化
+            nodeList = new List<Node>();
         }
 
         // ノード生成
-        public Node GenerateNode()
+        public void GenerateNode(NodeGenerationData data)
         {
-            return nodeGenerator.GenerateNode();
+            Node newNode = nodeGenerator.GenerateNode(data);
+            AddNode(newNode);
         }
 
         // ノードの追加

@@ -7,7 +7,7 @@ namespace Animator
     /**
     * シーン全体の管理，機能呼び出しを行う．
     */
-    public class SceneManager : MonoBehaviour
+    public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
         // Manager
         [SerializeField]
@@ -25,9 +25,9 @@ namespace Animator
         }
 
         // ノード作成
-        public void GenerateNode()
+        public void GenerateNode(NodeGenerationData data)
         {
-
+            nodeManager.GenerateNode(data);
         }
     }
 }
