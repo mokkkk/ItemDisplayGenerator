@@ -28,7 +28,31 @@ namespace Animator
         // ノード生成
         public void GenerateNode(NodeGenerationData data)
         {
-            Node newNode = nodeGenerator.GenerateNode(data);
+            var nodeName = data.partName;
+
+            // ノード名被り対策
+            foreach (Node n in nodeList)
+            {
+                if (nodeName.Equals(n.nodeName))
+                {
+                    int i = 1;
+                    foreach (Node n_ in nodeList)
+                    {
+                        var newNodeName = nodeName + "_" + i.ToString();
+                        if (newNodeName.Equals(n_.nodeName))
+                            i++;
+                    }
+
+                    nodeName = nodeName + "_" + i.ToString();
+                    data.partName = nodeName;
+                }
+            }
+
+            // ID決定
+            var id = nodeList.Count;
+
+            // ノード生成
+            Node newNode = nodeGenerator.GenerateNode(data, id);
             AddNode(newNode);
         }
 
