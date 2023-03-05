@@ -55,10 +55,7 @@ namespace Animator
         private GameObject nodeObject;
 
         private const float ScaleOffset = 16.0f;
-        private const float HeadScaleOffsetSmall = 0.4635f;
-        private const float TranslationOffset = 14.0f;
         private const float PivotCenter = 8.0f;
-        private const float DefaultLocalPositionY = 0.5f;
 
         // ノード生成
         public Node GenerateNode(NodeGenerationData data, int id)
@@ -68,7 +65,7 @@ namespace Animator
             // オブジェクト生成
             var newNode = Instantiate(dummyNodePrefab, Vector3.zero, Quaternion.identity);
             var node = newNode.GetComponent<Node>();
-            var elementHolder = newNode.transform.Find("Pose").Find("Elements");
+            var elementHolder = newNode.transform.Find("Pose").Find("Element");
 
             // ID設定
             node.nodeId = id;
@@ -78,11 +75,16 @@ namespace Animator
 
             // キューブ生成
             foreach (JsonElement element in inputJson.elements)
-            {
                 GenerateCube(element, elementHolder);
-            }
 
-            return null;
+            // ScaleをUnityに合わせる
+            elementHolder.localScale /= ScaleOffset;
+
+            // Transform適用
+            if (!ReferenceEquals(inputJson.display.head, null))
+                ApplyTransform(inputJson, elementHolder);
+
+            return node;
         }
 
         // ファイル読み込み
@@ -166,6 +168,31 @@ namespace Animator
                 // transform childに引っかからないよう，一度親子関係を解除
                 pivot.transform.parent = transform.root;
                 Destroy(pivot);
+            }
+        }
+
+        // Transform適用
+        private void ApplyTransform(JsonModel inputJson, Transform elementHolder)
+        {
+            // Rotation
+            if (inputJson.display.head.rotation != null)
+            {
+                elementHolder.localEulerAngles = new Vector3(-inputJson.display.head.rotation[0], -inputJson.display.head.rotation[1], inputJson.display.head.rotation[2]);
+            }
+
+            // Translation
+            if (inputJson.display.head.translation != null)
+            {
+                var headTranslation = Vector3.zero;
+                headTranslation = new Vector3(inputJson.display.head.translation[0] / ScaleOffset, inputJson.display.head.translation[1] / ScaleOffset, -inputJson.display.head.translation[2] / ScaleOffset);
+                elementHolder.localPosition += headTranslation;
+            }
+
+            // Scale
+            if (inputJson.display.head.scale != null)
+            {
+                var headScale = new Vector3(elementHolder.localScale.x * inputJson.display.head.scale[0], elementHolder.localScale.y * inputJson.display.head.scale[1], elementHolder.localScale.z * inputJson.display.head.scale[2]);
+                elementHolder.localScale = headScale;
             }
         }
     }

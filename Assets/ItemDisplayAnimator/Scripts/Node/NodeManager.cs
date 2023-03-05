@@ -59,6 +59,8 @@ namespace Animator
         // ノードの追加
         public void AddNode(Node node)
         {
+            if (!ReferenceEquals(node.transform.parent, this.transform))
+                node.transform.parent = this.transform;
             this.nodeList.Add(node);
         }
     }
