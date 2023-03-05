@@ -417,7 +417,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 143245099}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1580435323}
+        m_TargetAssemblyTypeName: Animator.MenuBarUI, Assembly-CSharp
+        m_MethodName: ShowFileMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &143245099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +794,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 479426999}
+  - component: {fileID: 479427000}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -803,6 +816,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &479427000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479426998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b20d4f4e966d84fb6cfe3caee432da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeManager: {fileID: 1991880232}
+  jsonFilePanelUI: {fileID: 961382097}
 --- !u!1 &687974207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,7 +1381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &961382096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1952,7 +1979,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1316470500}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 961382097}
+        m_TargetAssemblyTypeName: Animator.JsonFilePanelUI, Assembly-CSharp
+        m_MethodName: OnClickImportButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1316470500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,7 +2501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1495632585
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2613,6 +2652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f9c14f84d8b1b4d938c1fc477115d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fileMenuUI: {fileID: 1495632584}
 --- !u!1 &1626874298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3163,6 +3203,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1991880230}
+  - component: {fileID: 1991880232}
+  - component: {fileID: 1991880231}
   m_Layer: 0
   m_Name: NodeManager
   m_TagString: Untagged
@@ -3184,3 +3226,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991880231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991880229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd8c4728db225b4c862d8b14bfd674b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dummyNodePrefab: {fileID: 1620397971536721954, guid: 44bd409e6eb05d24aa26d069bcefbf65, type: 3}
+  pivotCubePrefab: {fileID: 8008640110955569680, guid: 2beb31627191f734aa1ecdb3304662b3, type: 3}
+--- !u!114 &1991880232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991880229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a43e2e991b8a5e4469d448ebac0bfdd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeList: []

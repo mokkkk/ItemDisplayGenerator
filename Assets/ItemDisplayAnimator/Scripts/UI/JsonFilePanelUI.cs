@@ -7,6 +7,16 @@ using SFB;
 namespace Animator
 {
     /**
+    * ノード生成用データの構造体．
+    */
+    public struct NodeGenerationData
+    {
+        public string jsonFilePath;
+        public string partName;
+        public int customModelData;
+    }
+
+    /**
     * ノード生成用のJson読み込みUI．
     */
     public class JsonFilePanelUI : MonoBehaviour
@@ -49,6 +59,9 @@ namespace Animator
             data.jsonFilePath = jsonFileInput.text;
             data.partName = partNameInput.text;
             data.customModelData = int.Parse(customModelDataInput.text);
+
+            // NodeGeneratorにデータを渡す
+            SceneManager.Instance.GenerateNode(data);
 
             jsonFileInput.text = null;
             partNameInput.text = null;
