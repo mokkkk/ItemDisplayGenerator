@@ -39,6 +39,14 @@ namespace Animator
         public float[] scale;
     }
 
+    // ノード生成用データ
+    public struct NodeGenerationData
+    {
+        public string jsonFilePath;
+        public string partName;
+        public int customModelData;
+    }
+
     /**
     * ノードのGameObjectを製造する．
     */
@@ -58,7 +66,7 @@ namespace Animator
         private const float PivotCenter = 8.0f;
 
         // ノード生成
-        public Node GenerateNode(NodeGenerationData data, int id)
+        public Node GenerateNode(NodeGenerationData data)
         {
             Debug.Log(this + ":ノード生成");
 
@@ -66,9 +74,6 @@ namespace Animator
             var newNode = Instantiate(dummyNodePrefab, Vector3.zero, Quaternion.identity);
             var node = newNode.GetComponent<Node>();
             var elementHolder = newNode.transform.Find("Pose").Find("Element");
-
-            // ID設定
-            node.nodeId = id;
 
             // ファイル読み込み
             JsonModel inputJson = LoadJson(data.jsonFilePath);

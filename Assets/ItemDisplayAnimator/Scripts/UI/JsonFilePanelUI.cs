@@ -7,16 +7,6 @@ using SFB;
 namespace Animator
 {
     /**
-    * ノード生成用データの構造体．
-    */
-    public struct NodeGenerationData
-    {
-        public string jsonFilePath;
-        public string partName;
-        public int customModelData;
-    }
-
-    /**
     * ノード生成用のJson読み込みUI．
     */
     public class JsonFilePanelUI : MonoBehaviour

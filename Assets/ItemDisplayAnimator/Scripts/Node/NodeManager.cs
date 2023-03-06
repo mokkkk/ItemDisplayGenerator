@@ -7,7 +7,7 @@ namespace Animator
     /**
     * 複数ノードを管理する．ノードの値の変更は必ずNodeManager経由で行う．
     */
-    public class NodeManager : MonoBehaviour
+    public class NodeManager : SingletonMonoBehaviour<NodeManager>
     {
         // ノード生成用
         private NodeGenerator nodeGenerator;
@@ -52,7 +52,8 @@ namespace Animator
             var id = nodeList.Count;
 
             // ノード生成
-            Node newNode = nodeGenerator.GenerateNode(data, id);
+            Node newNode = nodeGenerator.GenerateNode(data);
+            newNode.Initialize(data, id);
             AddNode(newNode);
         }
 
