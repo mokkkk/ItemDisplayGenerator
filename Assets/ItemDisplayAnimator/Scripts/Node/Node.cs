@@ -29,6 +29,7 @@ namespace Animator
 
         // TransformationNbt
         public Vector3 pos, rotate;
+        public float scale;
 
         // モデル表示用
         public Transform pose;
@@ -57,12 +58,10 @@ namespace Animator
             this.parentNode = null;
             this.childNodeList = new List<Node>();
             this.pos = this.rotate = Vector3.zero;
+            this.scale = 1.0f;
 
             // ノード名設定
             this.gameObject.name = nodeName;
-
-            // UI追加
-            // CreateUIModel(nodeUIObj, uiParent);
         }
     }
 }

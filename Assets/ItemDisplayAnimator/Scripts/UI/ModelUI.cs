@@ -37,6 +37,15 @@ namespace Animator
         public void Initialize(Node node)
         {
             this.nodeId = node.nodeId;
+            nodeName.text = node.name;
+            this.customModelDataInputField.text = node.customModelData.ToString();
+            this.positionX.text = $"{node.pos.x:F2}";
+            this.positionY.text = $"{node.pos.y:F2}";
+            this.positionZ.text = $"{node.pos.z:F2}";
+            this.rotationX.text = $"{node.rotate.x:F2}";
+            this.rotationY.text = $"{node.rotate.y:F2}";
+            this.rotationZ.text = $"{node.rotate.z:F2}";
+            this.scale.text = $"{node.scale:F2}";
         }
 
         // 各パラメータ更新時に呼び出すイベント

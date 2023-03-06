@@ -11,8 +11,9 @@ namespace Animator
     {
         // ノード生成用
         private NodeGenerator nodeGenerator;
+        private NodeUIGenerator nodeUIGenerator;
 
-        // ノード
+        // ノードリスト
         [SerializeField]
         private List<Node> nodeList;
 
@@ -20,6 +21,7 @@ namespace Animator
         {
             // Component取得
             nodeGenerator = this.GetComponent<NodeGenerator>();
+            nodeUIGenerator = GameObject.Find("Canvas").transform.Find("ModeModel").Find("NodeSettingUI").GetComponent<NodeUIGenerator>();
 
             // List初期化
             nodeList = new List<Node>();
@@ -54,7 +56,12 @@ namespace Animator
             // ノード生成
             Node newNode = nodeGenerator.GenerateNode(data);
             newNode.Initialize(data, id);
+
+            // リストに追加
             AddNode(newNode);
+
+            // UI生成
+            nodeUIGenerator.GenerateUI(newNode);
         }
 
         // ノードの追加
