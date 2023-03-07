@@ -27,6 +27,8 @@ namespace Animator
         [SerializeField]
         private InputField customModelDataInputField;
         [SerializeField]
+        private InputField parentInputField;
+        [SerializeField]
         private InputField positionX, positionY, positionZ;
         [SerializeField]
         private InputField rotationX, rotationY, rotationZ;
@@ -39,6 +41,7 @@ namespace Animator
             this.nodeId = node.nodeId;
             nodeName.text = node.name;
             this.customModelDataInputField.text = node.customModelData.ToString();
+            this.parentInputField.text = "Root";
             this.positionX.text = $"{node.pos.x:F2}";
             this.positionY.text = $"{node.pos.y:F2}";
             this.positionZ.text = $"{node.pos.z:F2}";

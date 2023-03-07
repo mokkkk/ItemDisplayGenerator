@@ -1945,7 +1945,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Root
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -2459,7 +2459,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Root
 --- !u!1 &2971892369723845126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: {fileID: 2971892369803410813}
   customModelDataInputField: {fileID: 2971892370153084596}
+  parentInputField: {fileID: 2971892369318108172}
   positionX: {fileID: 2971892370353671695}
   positionY: {fileID: 2971892368890645642}
   positionZ: {fileID: 2971892369642198293}
@@ -4367,7 +4368,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2971892370442082835}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
