@@ -71,5 +71,44 @@ namespace Animator
                 node.transform.parent = this.transform;
             this.nodeList.Add(node);
         }
+
+        // ノードのPosition設定
+        public void SetNodePosition(Vector3 position, int nodeId)
+        {
+            foreach (Node n in nodeList)
+            {
+                if (n.nodeId == nodeId)
+                    n.pos = position;
+            }
+            UpdateNodeTransform();
+        }
+
+        // ノードのRotation設定
+        public void SetNodeRotation(Vector3 rotation, int nodeId)
+        {
+            foreach (Node n in nodeList)
+            {
+                if (n.nodeId == nodeId)
+                    n.rotate = rotation;
+            }
+            UpdateNodeTransform();
+        }
+
+        // ノードのScale設定
+        public void SetNodeScale(float scale, int nodeId)
+        {
+            foreach (Node n in nodeList)
+            {
+                if (n.nodeId == nodeId)
+                    n.scale = scale;
+            }
+            UpdateNodeTransform();
+        }
+
+        // ノードの位置関係更新
+        private void UpdateNodeTransform()
+        {
+            Debug.Log(this + ":UpdateNodeTransform");
+        }
     }
 }

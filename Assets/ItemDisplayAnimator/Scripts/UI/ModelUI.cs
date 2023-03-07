@@ -58,6 +58,9 @@ namespace Animator
             positionX.text = $"{float.Parse(positionX.text):F2}";
             positionY.text = $"{float.Parse(positionY.text):F2}";
             positionZ.text = $"{float.Parse(positionZ.text):F2}";
+
+            Vector3 position = new Vector3(float.Parse(positionX.text), float.Parse(positionY.text), float.Parse(positionZ.text));
+            NodeManager.Instance.SetNodePosition(position, nodeId);
             Debug.Log(nodeName + " : Position Changed");
         }
 
@@ -67,6 +70,9 @@ namespace Animator
             rotationX.text = $"{float.Parse(rotationX.text):F2}";
             rotationY.text = $"{float.Parse(rotationY.text):F2}";
             rotationZ.text = $"{float.Parse(rotationZ.text):F2}";
+
+            Vector3 rotation = new Vector3(float.Parse(rotationX.text), float.Parse(rotationY.text), float.Parse(rotationZ.text));
+            NodeManager.Instance.SetNodePosition(rotation, nodeId);
             Debug.Log(nodeName + " : Rotation Changed");
         }
 
@@ -74,6 +80,8 @@ namespace Animator
         {
             // フォーマット
             scale.text = $"{float.Parse(scale.text):F2}";
+
+            NodeManager.Instance.SetNodeScale(float.Parse(scale.text), nodeId);
             Debug.Log(nodeName + " : Scale Changed");
         }
     }
