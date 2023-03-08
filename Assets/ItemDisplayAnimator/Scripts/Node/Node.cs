@@ -56,6 +56,7 @@ namespace Animator
             this.customModelData = data.customModelData;
             this.nodeType = NodeType.Root;
             this.parentNode = null;
+            this.parentNodeId = -1;
             this.childNodeList = new List<Node>();
             this.pos = this.rotate = Vector3.zero;
             this.scale = 1.0f;

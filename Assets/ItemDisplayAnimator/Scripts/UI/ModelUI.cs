@@ -51,6 +51,19 @@ namespace Animator
             this.scale.text = $"{node.scale:F2}";
         }
 
+        // Parent設定開始
+        public void OnClickSelectParentButton()
+        {
+            NodeManager.Instance.SelectNodeParentStart(nodeId);
+        }
+
+        // Parent設定完了
+        public void SetNodeParent(string parentNodeName)
+        {
+            parentInputField.text = parentNodeName;
+            Debug.Log(nodeName + " : Parent Changed");
+        }
+
         // 各パラメータ更新時に呼び出すイベント
         public void OnPositionChanged()
         {

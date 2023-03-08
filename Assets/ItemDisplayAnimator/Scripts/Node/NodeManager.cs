@@ -11,17 +11,22 @@ namespace Animator
     {
         // ノード生成用
         private NodeGenerator nodeGenerator;
-        private NodeUIGenerator nodeUIGenerator;
+        private NodeUIManager nodeUIManager;
 
         // ノードリスト
         [SerializeField]
         private List<Node> nodeList;
 
+        // Parent設定用
+        [SerializeField]
+        private SelectParentUI selectParentUI;
+        private Node parentSelectingNode;
+
         public void Start()
         {
             // Component取得
             nodeGenerator = this.GetComponent<NodeGenerator>();
-            nodeUIGenerator = GameObject.Find("Canvas").transform.Find("ModeModel").Find("NodeSettingUI").GetComponent<NodeUIGenerator>();
+            nodeUIManager = GameObject.Find("Canvas").transform.Find("ModeModel").Find("NodeSettingUI").GetComponent<NodeUIManager>();
 
             // List初期化
             nodeList = new List<Node>();
@@ -61,7 +66,7 @@ namespace Animator
             AddNode(newNode);
 
             // UI生成
-            nodeUIGenerator.GenerateUI(newNode);
+            nodeUIManager.GenerateUI(newNode);
         }
 
         // ノードの追加
@@ -70,6 +75,60 @@ namespace Animator
             if (!ReferenceEquals(node.transform.parent, this.transform))
                 node.transform.parent = this.transform;
             this.nodeList.Add(node);
+        }
+
+        // ノードのParent設定開始
+        public void SelectNodeParentStart(int nodeId)
+        {
+            // ノード保持
+            foreach (Node n in nodeList)
+            {
+                if (n.nodeId == nodeId)
+                    parentSelectingNode = n;
+            }
+
+            // UI表示
+            selectParentUI.gameObject.SetActive(true);
+            selectParentUI.Initialize(nodeList, nodeId);
+        }
+
+        // ノードのParent設定完了
+        public void SelectNodeParentComplete(int parentNodeId)
+        {
+            // 対象ノードの親を設定
+            Node tmpParentNode = null;
+            if (parentNodeId > -1)
+            {
+                foreach (Node n in nodeList)
+                {
+                    if (n.nodeId == parentNodeId)
+                    {
+                        tmpParentNode = n;
+                        parentSelectingNode.parentNode = n;
+                        parentSelectingNode.parentNodeId = n.nodeId;
+                    }
+                }
+            }
+            else
+            {
+                parentSelectingNode = null;
+                parentSelectingNode.parentNodeId = -1;
+            }
+
+            // UI更新
+            nodeUIManager.UpdateParentNode(parentSelectingNode.nodeId, tmpParentNode);
+
+            // ノード解放
+            parentSelectingNode = null;
+
+            UpdateNodeTransform();
+        }
+
+        // ノードのParent設定キャンセル
+        public void SelectNodeParentCancel()
+        {
+            // ノード解放
+            parentSelectingNode = null;
         }
 
         // ノードのPosition設定
