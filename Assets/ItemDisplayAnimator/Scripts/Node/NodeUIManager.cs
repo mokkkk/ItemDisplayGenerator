@@ -51,11 +51,20 @@ namespace Animator
         // NodeのParentを更新する
         public void UpdateParentNode(int targetNodeId, Node parentNode)
         {
-            foreach (ModelUI ui in modelUIList)
+            if (!ReferenceEquals(parentNode, null))
             {
-                if (ui.NodeId == targetNodeId)
+                foreach (ModelUI ui in modelUIList)
                 {
-                    ui.SetNodeParent(parentNode.nodeName);
+                    if (ui.NodeId == targetNodeId)
+                        ui.SetNodeParent(parentNode.nodeName);
+                }
+            }
+            else
+            {
+                foreach (ModelUI ui in modelUIList)
+                {
+                    if (ui.NodeId == targetNodeId)
+                        ui.SetNodeParent("Root");
                 }
             }
         }

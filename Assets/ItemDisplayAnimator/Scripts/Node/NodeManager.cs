@@ -111,7 +111,7 @@ namespace Animator
             }
             else
             {
-                parentSelectingNode = null;
+                parentSelectingNode.parentNode = null;
                 parentSelectingNode.parentNodeId = -1;
             }
 
