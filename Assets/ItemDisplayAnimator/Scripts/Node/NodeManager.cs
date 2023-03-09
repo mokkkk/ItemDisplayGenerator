@@ -215,12 +215,14 @@ namespace Animator
         private void UpdateNodeTransformRoot(Node node, Vector3 rootPos, Vector3 rootRotate)
         {
             // パラメータを元にTransformを更新
+            node.transform.localScale = Vector3.one * node.scale;
+
             Vector3 newPos = node.pos + rootPos;
             node.transform.localPosition = newPos;
 
             Quaternion rootQuaternion = Quaternion.Euler(rootRotate);
             Quaternion nodeQuaternion = Quaternion.Euler(node.rotate);
-            Vector3 newRotate = (nodeQuaternion * rootQuaternion).eulerAngles;
+            Vector3 newRotate = (rootQuaternion * nodeQuaternion).eulerAngles;
             node.pose.localEulerAngles = newRotate;
 
             // 子ノードで実行
@@ -237,13 +239,16 @@ namespace Animator
         private void UpdateNodeTransformNode(Node node, Vector3 parentPos, Vector3 parentRotate)
         {
             // パラメータを元にTransformを更新
+            // 子ノードposは親ノードrotateで回転した後に加算する
+            node.transform.localScale = Vector3.one * node.scale;
+
             Quaternion parentQuaternion = Quaternion.Euler(parentRotate);
 
             Vector3 newPos = parentPos + (parentQuaternion * node.pos);
             node.transform.localPosition = newPos;
 
             Quaternion nodeQuaternion = Quaternion.Euler(node.rotate);
-            Vector3 newRotate = (nodeQuaternion * parentQuaternion).eulerAngles;
+            Vector3 newRotate = (parentQuaternion * nodeQuaternion).eulerAngles;
             node.pose.localEulerAngles = newRotate;
 
             // 子ノードで実行
