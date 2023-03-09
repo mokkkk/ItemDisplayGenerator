@@ -104,8 +104,8 @@ namespace Animator
                     if (n.nodeId == parentNodeId)
                     {
                         tmpParentNode = n;
-                        parentSelectingNode.parentNode = n;
-                        parentSelectingNode.parentNodeId = n.nodeId;
+                        parentSelectingNode.parentNode = tmpParentNode;
+                        parentSelectingNode.parentNodeId = tmpParentNode.nodeId;
                     }
                 }
             }
@@ -113,6 +113,7 @@ namespace Animator
             {
                 parentSelectingNode.parentNode = null;
                 parentSelectingNode.parentNodeId = -1;
+                parentSelectingNode.nodeType = NodeType.Root;
             }
 
             // UI更新
@@ -121,7 +122,9 @@ namespace Animator
             // ノード解放
             parentSelectingNode = null;
 
-            UpdateNodeTransform();
+            // ノードTransform更新
+            UpdateNodeRelation();
+            UpdateNodeTransform(Vector3.zero, Vector3.zero);
         }
 
         // ノードのParent設定キャンセル
@@ -129,6 +132,37 @@ namespace Animator
         {
             // ノード解放
             parentSelectingNode = null;
+        }
+
+        // ノードの親子関係更新
+        private void UpdateNodeRelation()
+        {
+            // childNodeListリセット
+            foreach (Node n in nodeList)
+                n.childNodeList = new List<Node>();
+
+            // parentNodeのchildNodeListに自分を追加
+            foreach (Node n in nodeList)
+            {
+                if (!ReferenceEquals(n.parentNode, null))
+                    n.parentNode.childNodeList.Add(n);
+            }
+
+            // NodeType更新
+            foreach (Node n in nodeList)
+            {
+                if (!ReferenceEquals(n.parentNode, null))
+                {
+                    if (0 < n.childNodeList.Count)
+                        n.nodeType = NodeType.Node;
+                    else
+                        n.nodeType = NodeType.Leaf;
+                }
+                else
+                {
+                    n.nodeType = NodeType.Root;
+                }
+            }
         }
 
         // ノードのPosition設定
@@ -139,7 +173,7 @@ namespace Animator
                 if (n.nodeId == nodeId)
                     n.pos = position;
             }
-            UpdateNodeTransform();
+            UpdateNodeTransform(Vector3.zero, Vector3.zero);
         }
 
         // ノードのRotation設定
@@ -150,7 +184,7 @@ namespace Animator
                 if (n.nodeId == nodeId)
                     n.rotate = rotation;
             }
-            UpdateNodeTransform();
+            UpdateNodeTransform(Vector3.zero, Vector3.zero);
         }
 
         // ノードのScale設定
@@ -161,13 +195,65 @@ namespace Animator
                 if (n.nodeId == nodeId)
                     n.scale = scale;
             }
-            UpdateNodeTransform();
+            UpdateNodeTransform(Vector3.zero, Vector3.zero);
         }
 
         // ノードの位置関係更新
-        private void UpdateNodeTransform()
+        private void UpdateNodeTransform(Vector3 rootPos, Vector3 rootRotate)
         {
+            foreach (Node n in nodeList)
+            {
+                // RootNodeで実行開始
+                if (n.nodeType == NodeType.Root)
+                    UpdateNodeTransformRoot(n, rootPos, rootRotate);
+            }
+
             Debug.Log(this + ":UpdateNodeTransform");
+        }
+
+        // ノード位置関係更新（Root用）
+        private void UpdateNodeTransformRoot(Node node, Vector3 rootPos, Vector3 rootRotate)
+        {
+            // パラメータを元にTransformを更新
+            Vector3 newPos = node.pos + rootPos;
+            node.transform.localPosition = newPos;
+
+            Quaternion rootQuaternion = Quaternion.Euler(rootRotate);
+            Quaternion nodeQuaternion = Quaternion.Euler(node.rotate);
+            Vector3 newRotate = (nodeQuaternion * rootQuaternion).eulerAngles;
+            node.pose.localEulerAngles = newRotate;
+
+            // 子ノードで実行
+            if (node.nodeType != NodeType.Leaf)
+            {
+                foreach (Node childNode in node.childNodeList)
+                {
+                    UpdateNodeTransformNode(childNode, newPos, newRotate);
+                }
+            }
+        }
+
+        // ノード位置関係更新（Node用）
+        private void UpdateNodeTransformNode(Node node, Vector3 parentPos, Vector3 parentRotate)
+        {
+            // パラメータを元にTransformを更新
+            Quaternion parentQuaternion = Quaternion.Euler(parentRotate);
+
+            Vector3 newPos = parentPos + (parentQuaternion * node.pos);
+            node.transform.localPosition = newPos;
+
+            Quaternion nodeQuaternion = Quaternion.Euler(node.rotate);
+            Vector3 newRotate = (nodeQuaternion * parentQuaternion).eulerAngles;
+            node.pose.localEulerAngles = newRotate;
+
+            // 子ノードで実行
+            if (node.nodeType != NodeType.Leaf)
+            {
+                foreach (Node childNode in node.childNodeList)
+                {
+                    UpdateNodeTransformRoot(childNode, newPos, newRotate);
+                }
+            }
         }
     }
 }

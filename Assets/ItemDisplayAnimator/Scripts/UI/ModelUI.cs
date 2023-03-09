@@ -85,7 +85,7 @@ namespace Animator
             rotationZ.text = $"{float.Parse(rotationZ.text):F2}";
 
             Vector3 rotation = new Vector3(float.Parse(rotationX.text), float.Parse(rotationY.text), float.Parse(rotationZ.text));
-            NodeManager.Instance.SetNodePosition(rotation, nodeId);
+            NodeManager.Instance.SetNodeRotation(rotation, nodeId);
             Debug.Log(nodeName + " : Rotation Changed");
         }
 
