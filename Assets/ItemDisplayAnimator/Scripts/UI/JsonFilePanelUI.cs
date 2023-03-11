@@ -1,21 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using SFB;
 
 namespace Animator
 {
-    /**
-    * ノード生成用データの構造体．
-    */
-    public struct NodeGenerationData
-    {
-        public string jsonFilePath;
-        public string partName;
-        public int customModelData;
-    }
-
     /**
     * ノード生成用のJson読み込みUI．
     */
@@ -28,6 +20,8 @@ namespace Animator
         [SerializeField]
         private InputField customModelDataInput;
 
+        private const string DefaultCustomModelData = "0";
+
         // ファイル選択ボタンクリック時
         public void OnClickSelectFileButton()
         {
@@ -39,7 +33,20 @@ namespace Animator
 
             string[] paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", extensions, true);
 
+            if (paths.Length <= 0)
+                return;
+
             jsonFileInput.text = paths[0];
+
+            // デフォルトノード名を入力
+            var strList = paths[0].Split('\\').Last().Split('.')[0].Split('_');
+            var defaultNodeName = "";
+            foreach (string s in strList)
+            {
+                var name = char.ToUpper(s[0]) + s.Substring(1);
+                defaultNodeName += name;
+            }
+            partNameInput.text = defaultNodeName;
         }
 
         // キャンセルボタンクリック時
@@ -47,7 +54,7 @@ namespace Animator
         {
             jsonFileInput.text = null;
             partNameInput.text = null;
-            customModelDataInput.text = null;
+            customModelDataInput.text = DefaultCustomModelData;
             this.gameObject.SetActive(false);
         }
 
@@ -65,7 +72,7 @@ namespace Animator
 
             jsonFileInput.text = null;
             partNameInput.text = null;
-            customModelDataInput.text = null;
+            customModelDataInput.text = DefaultCustomModelData;
             this.gameObject.SetActive(false);
         }
     }
